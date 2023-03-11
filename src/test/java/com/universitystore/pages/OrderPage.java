@@ -1,4 +1,4 @@
-package com.dangelsin.pages;
+package com.universitystore.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

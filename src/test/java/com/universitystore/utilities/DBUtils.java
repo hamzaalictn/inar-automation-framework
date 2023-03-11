@@ -1,4 +1,4 @@
-package com.dangelsin.utilities;
+package com.universitystore.utilities;
 
 import java.sql.*;
 import java.util.ArrayList;

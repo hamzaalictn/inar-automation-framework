@@ -1,4 +1,4 @@
-package com.dangelsin.runners;
+package com.universitystore.runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -13,8 +13,8 @@ import org.junit.runner.RunWith;
                 "rerun:target/rerun.txt"
         },
         features = "src/test/resources/features",
-        glue = "com/dangelsin/step_definitions",
-        tags = "@hamza",
+        glue = "com/universitystore/step_definitions",
+        tags = "@login_Valid_Credentials",
         dryRun = false
 
 )

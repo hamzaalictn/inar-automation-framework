@@ -1,6 +1,6 @@
-package com.dangelsin.pages;
+package com.universitystore.pages;
 
-import com.dangelsin.utilities.Driver;
+import com.universitystore.utilities.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;

@@ -1,8 +1,8 @@
-package com.dangelsin.utilities;
+package com.universitystore.utilities;
 
-import com.dangelsin.pages.LoginPage;
-import com.dangelsin.pages.OrderPage;
-import com.dangelsin.pages.WebOrdersPage;
+import com.universitystore.pages.LoginPage;
+import com.universitystore.pages.OrderPage;
+import com.universitystore.pages.WebOrdersPage;
 
 public class Pages {
     private WebOrdersPage webOrdersPage;

@@ -1,6 +1,6 @@
-package com.dangelsin.step_definitions;
+package com.universitystore.step_definitions;
 
-import com.dangelsin.utilities.Pages;
+import com.universitystore.utilities.Pages;
 
 public class BaseStep {
     protected Pages pages = new Pages();

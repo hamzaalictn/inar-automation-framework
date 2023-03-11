@@ -1,75 +1,80 @@
-package com.dangelsin.utilities;
+package com.universitystore.utilities;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Driver {
 
-
-    private static ThreadLocal<WebDriver> driverPool = new ThreadLocal<WebDriver>();
-    /*
-     * We use private and static modifiers so that no one can create a driver class object,
-     * instead everyone should call the static getter method.
-     */
+    private static final ThreadLocal<WebDriver> driverPool = new ThreadLocal<>();
 
     private Driver() {
+        throw new UnsupportedOperationException("Cannot instantiate utility class");
     }
 
     /**
-     * Synchronized makes method thread safe.
-     * It ensures that only 1 thread can use it at the time.
-     * Thread safety reduces performance but it makes everything safe.
+     * Returns a new instance of a WebDriver based on the browser specified in the configuration properties file.
+     * If an instance of the WebDriver already exists, that instance is returned.
      *
-     * @return
+     * @return a new instance of a WebDriver
+     * @throws RuntimeException if an invalid browser is specified in the configuration properties file
      */
-
-    public synchronized static WebDriver getDriver() {
-        /*
-         * We first check if a webdriver object exists,
-         * if not, this method will create it.
-         *
-         */
+    public static WebDriver getDriver() {
         if (driverPool.get() == null) {
-            /*
-             * We specified the type of browser in the configuration.properties file.
-             * And then, we load these information into a Properties class object
-             * by initiating a FileInputStream class  object.
-             * This is where we will get type of browser by using ConfigurationReader.java class object.
-             */
-            String browser = ConfigurationReader.getProperty("browser").toLowerCase();
-            switch (browser) {
+            String browserName = com.universitystore.utilities.ConfigurationReader.getProperty("browser").toLowerCase();
+            WebDriver driver;
+
+            switch (browserName) {
                 case "chrome":
-                    WebDriverManager.chromedriver().setup();
-                    ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("--start-maximized");
-                    driverPool.set(new ChromeDriver(chromeOptions));
-                    break;
-                case "chromeheadless":
-                    //to run chrome without interface (headless mode)
-                    WebDriverManager.chromedriver().setup();
-                    ChromeOptions options = new ChromeOptions();
-                    options.setHeadless(true);
-                    driverPool.set(new ChromeDriver(options));
+                    driver = createChromeDriver();
                     break;
                 case "firefox":
-                    WebDriverManager.firefoxdriver().setup();
-                    driverPool.set(new FirefoxDriver());
+                    driver = createFirefoxDriver();
+                    break;
+                case "edge":
+                    driver = createEdgeDriver();
                     break;
                 default:
-                    throw new RuntimeException("Wrong browser name !");
+                    throw new RuntimeException("Invalid browser name specified in configuration properties file: " + browserName);
             }
+
+            driverPool.set(driver);
         }
+
         return driverPool.get();
     }
 
+    private static ChromeDriver createChromeDriver() {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        return new ChromeDriver(options);
+    }
 
+    private static EdgeDriver createEdgeDriver() {
+        WebDriverManager.edgedriver().setup();
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--start-maximized"); // Maximize browser window on startup
+        return new EdgeDriver(options);
+    }
+
+    private static FirefoxDriver createFirefoxDriver() {
+        WebDriverManager.firefoxdriver().setup();
+        return new FirefoxDriver();
+    }
+
+    /**
+     * Closes the WebDriver instance and removes it from the thread pool.
+     */
     public static void closeDriver() {
-        if (driverPool != null) {
-            driverPool.get().quit();
+        WebDriver driver = driverPool.get();
+        if (driver != null) {
+            driver.quit();
             driverPool.remove();
         }
     }

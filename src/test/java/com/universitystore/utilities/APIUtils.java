@@ -1,4 +1,4 @@
-package com.dangelsin.utilities;
+package com.universitystore.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

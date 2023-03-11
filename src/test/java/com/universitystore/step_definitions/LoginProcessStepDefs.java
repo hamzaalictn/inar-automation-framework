@@ -1,8 +1,8 @@
-package com.dangelsin.step_definitions;
+package com.universitystore.step_definitions;
 
-import com.dangelsin.utilities.BrowserUtils;
-import com.dangelsin.utilities.ConfigurationReader;
-import com.dangelsin.utilities.Driver;
+import com.universitystore.utilities.BrowserUtils;
+import com.universitystore.utilities.ConfigurationReader;
+import com.universitystore.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -29,9 +29,7 @@ public class LoginProcessStepDefs extends BaseStep {
 
     @When("the user enters password as {string}")
     public void user_enters_password_as(String passwordValue) {
-
         pages.loginPage().enterPasswordValue(passwordValue);
-
     }
 
     @When("the user enters username {string}")
